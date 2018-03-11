@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { leftNeighbour, rightNeighbour, topNeighbour, bottomNeighbour, numOfLiveNeighbours, transform } = require('../client/Board');
+const { leftNeighbour, rightNeighbour, topNeighbour, bottomNeighbour, numOfLiveNeighbours, transform } = require('../client/Cell');
 
 describe('Game Of Life', function () {
 	describe('Helper functions', function () {
