@@ -9,7 +9,7 @@ function createRandomBoard(nNumOfRows, nNumOfColumns) {
 	return pCells;
 }
 function createHeart() {
-	const nNumOfRows = 9, nNumOfColumns = 11;
+	const nNumOfRows = 13, nNumOfColumns = 15;
 	let pCells = [];
 	for (let r = 0; r < nNumOfRows; r++) {
 		pCells[r] = [];
@@ -17,28 +17,28 @@ function createHeart() {
 			pCells[r].push(0);
 		}
 	}
-	pCells[1][2] = 1;
-	pCells[1][3] = 1;
-	pCells[1][7] = 1;
-	pCells[1][8] = 1;
-	pCells[2][1] = 1;
-	pCells[2][4] = 1;
-	pCells[2][6] = 1;
-	pCells[2][9] = 1;
-	pCells[3][1] = 1;
+	pCells[3][4] = 1;
 	pCells[3][5] = 1;
 	pCells[3][9] = 1;
-	pCells[4][2] = 1;
+	pCells[3][10] = 1;
+	pCells[4][3] = 1;
+	pCells[4][6] = 1;
 	pCells[4][8] = 1;
+	pCells[4][11] = 1;
 	pCells[5][3] = 1;
 	pCells[5][7] = 1;
+	pCells[5][11] = 1;
 	pCells[6][4] = 1;
-	pCells[6][6] = 1;
+	pCells[6][10] = 1;
 	pCells[7][5] = 1;
+	pCells[7][9] = 1;
+	pCells[8][6] = 1;
+	pCells[8][8] = 1;
+	pCells[9][7] = 1;
 	return pCells;
 }
 function createBlinker() {
-	const nNumOfRows = 5, nNumOfColumns = 5;
+	const nNumOfRows = 9, nNumOfColumns = 9;
 	let pCells = [];
 	for (let r = 0; r < nNumOfRows; r++) {
 		pCells[r] = [];
@@ -46,13 +46,13 @@ function createBlinker() {
 			pCells[r].push(0);
 		}
 	}
-	pCells[1][2] = 1;
-	pCells[2][2] = 1;
-	pCells[3][2] = 1;
+	pCells[3][4] = 1;
+	pCells[4][4] = 1;
+	pCells[5][4] = 1;
 	return pCells;
 }
 function createBeehive() {
-	const nNumOfRows = 5, nNumOfColumns = 6;
+	const nNumOfRows = 9, nNumOfColumns = 10;
 	let pCells = [];
 	for (let r = 0; r < nNumOfRows; r++) {
 		pCells[r] = [];
@@ -60,16 +60,16 @@ function createBeehive() {
 			pCells[r].push(0);
 		}
 	}
-	pCells[1][2] = 1;
-	pCells[1][3] = 1;
-	pCells[2][1] = 1;
-	pCells[2][4] = 1;
-	pCells[3][2] = 1;
-	pCells[3][3] = 1;
+	pCells[3][4] = 1;
+	pCells[3][5] = 1;
+	pCells[4][3] = 1;
+	pCells[4][6] = 1;
+	pCells[5][4] = 1;
+	pCells[5][5] = 1;
 	return pCells;
 }
 function createGosperGliderGun() {
-	const nNumOfRows = 11*10, nNumOfColumns = 38*2;
+	const nNumOfRows = 15 * 3, nNumOfColumns = 42 * 1.5;
 	let pCells = [];
 	for (let r = 0; r < nNumOfRows; r++) {
 		pCells[r] = [];
@@ -77,7 +77,7 @@ function createGosperGliderGun() {
 			pCells[r].push(0);
 		}
 	}
-	const R = 0, C = 0;
+	const R = 2, C = 2;
 	pCells[C + 1][R + 25] = 1;
 	pCells[C + 2][R + 23] = 1;
 	pCells[C + 2][R + 25] = 1;
@@ -118,14 +118,17 @@ function createGosperGliderGun() {
 }
 
 function drawBoard(pCells, div) {
-	const nNumOfRows = pCells.length;
-	const nNumOfColumns = pCells[0].length;
+	/*
+	Calculate but do not show the outermost two layers of cells to simulate an infinite two-dimensional orthogonal grid
+	*/
+	const nNumOfRows = pCells.length - 4;
+	const nNumOfColumns = pCells[0].length - 4;
 
 	for (let r = 0; r < nNumOfRows; r++) {
 		let row = document.createElement("tr");
 		for (let c = 0; c < nNumOfColumns; c++) {
 			let col = document.createElement("td");
-			col.style.backgroundColor = pCells[r][c] === 1 ? 'black' : 'white';
+			col.style.backgroundColor = pCells[r + 2][c + 2] === 1 ? 'black' : 'white';
 			row.appendChild(col);
 		}
 		div.appendChild(row);
@@ -133,12 +136,15 @@ function drawBoard(pCells, div) {
 }
 
 function updateBoard(pCells, div) {
-	const nNumOfRows = pCells.length;
-	const nNumOfColumns = pCells[0].length;
+	/*
+	Calculate but do not show the outermost two layers of cells to simulate an infinite two-dimensional orthogonal grid
+	*/
+	const nNumOfRows = pCells.length - 4;
+	const nNumOfColumns = pCells[0].length - 4;
 
 	for (let r = 0; r < nNumOfRows; r++) {
 		for (let c = 0; c < nNumOfColumns; c++) {
-			div.childNodes[r].childNodes[c].style.backgroundColor = pCells[r][c] === 1 ? 'black' : 'white';
+			div.childNodes[r].childNodes[c].style.backgroundColor = pCells[r + 2][c + 2] === 1 ? 'black' : 'white';
 		}
 	}
 }
@@ -150,7 +156,7 @@ function startGame(pCells) {
 	setInterval(function () {
 		pCells = tick(pCells);
 		updateBoard(pCells, div);
-	}, 250);
+	}, 20);
 }
 
 const oBoardCollection = {
@@ -158,7 +164,7 @@ const oBoardCollection = {
 	Heart: createHeart(),
 	Blinker: createBlinker(),
 	Beehive: createBeehive(),
-	Random: createRandomBoard(10, 15)
+	Random: createRandomBoard(14, 19)
 };
 
 Object.keys(oBoardCollection).forEach(function (sBoardName) {
