@@ -1,87 +1,116 @@
 const assert = require('assert');
-const { leftNeighbour, rightNeighbour, topNeighbour, bottomNeighbour, numOfLiveNeighbours, transform } = require('../client/Cell');
+const { numOfLiveNeighbours, transform } = require('../client/Cell');
 
 describe('Game Of Life', function () {
-	describe('Helper functions', function () {
-		// left Neighbour
-		it('In a 3x3 board, left Neighbour of 0 = 2', function () {
-			assert.equal(leftNeighbour(0, 3), 2);
-		});
-		it('In a 3x3 board, left Neighbour of 1 = 0', function () {
-			assert.equal(leftNeighbour(1, 3), 0);
-		});
-		it('In a 3x3 board, left Neighbour of 2 = 1', function () {
-			assert.equal(leftNeighbour(2, 3), 1);
-		});
-		// right Neighbour
-		it('In a 3x3 board, right Neighbour of 0 = 1', function () {
-			assert.equal(rightNeighbour(0, 3), 1);
-		});
-		it('In a 3x3 board, right Neighbour of 1 = 2', function () {
-			assert.equal(rightNeighbour(1, 3), 2);
-		});
-		it('In a 3x3 board, right Neighbour of 2 = 0', function () {
-			assert.equal(rightNeighbour(2, 3), 0);
-		});
-		// top Neighbour
-		it('In a 3x3 board, top Neighbour of 0 = 2', function () {
-			assert.equal(topNeighbour(0, 3), 2);
-		});
-		it('In a 3x3 board, top Neighbour of 1 = 0', function () {
-			assert.equal(topNeighbour(1, 3), 0);
-		});
-		it('In a 3x3 board, top Neighbour of 2 = 1', function () {
-			assert.equal(topNeighbour(2, 3), 1);
-		});
-		// bottom Neighbour
-		it('In a 3x3 board, bottom Neighbour of 0 = 1', function () {
-			assert.equal(bottomNeighbour(0, 3), 1);
-		});
-		it('In a 3x3 board, bottom Neighbour of 1 = 2', function () {
-			assert.equal(bottomNeighbour(1, 3), 2);
-		});
-		it('In a 3x3 board, bottom Neighbour of 2 = 0', function () {
-			assert.equal(bottomNeighbour(2, 3), 0);
-		});
-
-		it('can calculate the no. of live neighbours', function () {
-			const x = 1, y = 1;
-			const oBoard = [[1, 1, 1],
+	describe('Calculate the no. of live heighbours', function () {
+		it('middle cell of a 3x3 board', function () {
+			const r = 1, c = 1;
+			const pCells = [[1, 1, 1],
 							[0, 0, 0],
 							[1, 1, 1]];
-			assert.equal(numOfLiveNeighbours(x, y, oBoard), 6);
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 6);
+		});
+		it('top-middle of a 3x3 board', function () {
+			const r = 0, c = 1;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 2);
+		});
+		it('bottom-middle of a 3x3 board', function () {
+			const r = 2, c = 1;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 2);
+		});
+		it('left-middle of a 3x3 board', function () {
+			const r = 1, c = 0;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 4);
+		});
+		it('right-middle of a 3x3 board', function () {
+			const r = 1, c = 2;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 4);
+		});
+		it('top-left cell of a 3x3 board', function () {
+			const r = 0, c = 0;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 1);
+		});
+		it('top-right cell of a 3x3 board', function () {
+			const r = 0, c = 2;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 1);
+		});
+		it('bottom-left cell of a 3x3 board', function () {
+			const r = 2, c = 0;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 1);
+		});
+		it('bottom-right cell of a 3x3 board', function () {
+			const r = 2, c = 2;
+			const pCells = [[1, 1, 1],
+							[0, 0, 0],
+							[1, 1, 1]];
+			assert.equal(numOfLiveNeighbours(r, c, pCells), 1);
 		});
 	});
 
 	describe('Transition Rules', function () {
 		it('[1 -> 0] Any live cell with fewer than two live neighbours dies, as if caused by under-population', function () {
-			const x = 1, y = 1;
-			const oBoard = [[0, 0, 0],
+			const r = 1, c = 1;
+			const pCells = [[0, 0, 0],
 							[0, 1, 0],
 							[0, 0, 0]];
-			assert.equal(transform(x, y, oBoard), 0);
+			assert.equal(transform(r, c, pCells), 0);
 		});
 		it('[1 -> 1] Any live cell with two or three live neighbours lives on to the next generation', function () {
-			const x = 1, y = 1;
-			const oBoard = [[0, 1, 1],
+			const r = 1, c = 1;
+			const pCells = [[0, 1, 1],
 							[0, 1, 0],
 							[0, 0, 0]];
-			assert.equal(transform(x, y, oBoard), 1);
+			assert.equal(transform(r, c, pCells), 1);
 		});
 		it('[1 -> 0] Any live cell with more than three live neighbours dies, as if by overcrowding', function () {
-			const x = 1, y = 1;
-			const oBoard = [[1, 1, 1],
+			const r = 1, c = 1;
+			const pCells = [[1, 1, 1],
 							[1, 1, 0],
 							[1, 0, 1]];
-			assert.equal(transform(x, y, oBoard), 0);
+			assert.equal(transform(r, c, pCells), 0);
 
 		});
 		it('[0 -> 1] Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction', function () {
-			const x = 1, y = 1;
-			const oBoard = [[0, 1, 1],
+			const r = 1, c = 1;
+			const pCells = [[0, 1, 1],
 							[0, 0, 0],
 							[0, 0, 1]];
-			assert.equal(transform(x, y, oBoard), 1);
+			assert.equal(transform(r, c, pCells), 1);
+		});
+		it('[0 -> 0](Implicit Rule 1) Any dead cell with fewer than three live neighbours still a dead cell', function () {
+			const r = 1, c = 1;
+			const pCells = [[0, 1, 1],
+							[0, 0, 0],
+							[0, 0, 0]];
+			assert.equal(transform(r, c, pCells), 0);
+		});
+		it('[0 -> 0](Implicit Rule 2) Any dead cell with more than three live neighbours still a dead cell', function () {
+			const r = 1, c = 1;
+			const pCells = [[1, 1, 1],
+							[0, 0, 1],
+							[1, 0, 1]];
+			assert.equal(transform(r, c, pCells), 0);
 		});
 	});
 });

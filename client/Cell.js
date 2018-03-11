@@ -1,82 +1,59 @@
-function leftNeighbour(x, nWidth) {
-	return (x - 1) < 0 ? (x - 1) + nWidth : x - 1;
-}
-function rightNeighbour(x, nWidth) {
-	return (x + 1) >= nWidth ? nWidth - (x + 1) : x + 1;
-}
-function topNeighbour(y, nHeight) {
-	return (y - 1) < 0 ? (y - 1) + nHeight : y - 1;
-}
-function bottomNeighbour(y, nHeight) {
-	return (y + 1) >= nHeight ? nHeight - (y + 1) : y + 1;
+function getCellValue(r, c, pCells) {
+	if (r < 0 || r >= pCells.length || c < 0 || c >= pCells[0].length) {
+		return 0;
+	}
+	return pCells[r][c];
 }
 
-function numOfLiveNeighbours(x, y, oBoard) {
-	const nWidth = oBoard.length
-	const nHeight = oBoard[0].length;
-
-	// x - 1
-	const left = leftNeighbour(x, nWidth);
-	// x + 1
-	const right = rightNeighbour(x, nWidth);
-	// y - 1
-	const top = topNeighbour(y, nHeight);
-	// y + 1
-	const bottom = bottomNeighbour(y, nHeight);
-
+function numOfLiveNeighbours(r, c, pCells) {
 	let n = 0;
-	// x - 1, y - 1
-	n += oBoard[left][top];
-	// x    , y - 1
-	n += oBoard[x][top];
-	// x + 1, y - 1
-	n += oBoard[right][top];
-	// x - 1, y
-	n += oBoard[left][y];
-	// x + 1, y
-	n += oBoard[right][y];
-	// x - 1, y + 1
-	n += oBoard[left][bottom];
-	// x    , y + 1
-	n += oBoard[x][bottom];
-	// x + 1, y + 1
-	n += oBoard[right][bottom];
+
+	n += getCellValue(r - 1, c - 1, pCells);
+	n += getCellValue(r, c - 1, pCells);
+	n += getCellValue(r + 1, c - 1, pCells);
+	n += getCellValue(r - 1, c, pCells);
+	n += getCellValue(r + 1, c, pCells);
+	n += getCellValue(r - 1, c + 1, pCells);
+	n += getCellValue(r, c + 1, pCells);
+	n += getCellValue(r + 1, c + 1, pCells);
 
 	return n;
 }
 
-function transform(x, y, oBoard) {
+function transform(r, c, pCells) {
 	// [1 -> 0] Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-	if (oBoard[x][y] === 1 && numOfLiveNeighbours(x, y, oBoard) < 2) {
+	if (pCells[r][c] === 1 && numOfLiveNeighbours(r, c, pCells) < 2) {
 		return 0;
 	}
 	// [1 -> 1] Any live cell with two or three live neighbours lives on to the next generation.
-	if (oBoard[x][y] === 1 && [2, 3].indexOf(numOfLiveNeighbours(x, y, oBoard)) !== -1) {
+	if (pCells[r][c] === 1 && [2, 3].indexOf(numOfLiveNeighbours(r, c, pCells)) !== -1) {
 		return 1;
 	}
 	// [1 -> 0] Any live cell with more than three live neighbours dies, as if by overcrowding.
-	if (oBoard[x][y] === 1 && numOfLiveNeighbours(x, y, oBoard) > 3) {
+	if (pCells[r][c] === 1 && numOfLiveNeighbours(r, c, pCells) > 3) {
 		return 0;
 	}
 	// [0 -> 1] Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-	if (oBoard[x][y] === 0 && numOfLiveNeighbours(x, y, oBoard) === 3) {
+	if (pCells[r][c] === 0 && numOfLiveNeighbours(r, c, pCells) === 3) {
 		return 1;
 	}
 	// If no Transition Rules hit, default return previous value
-	return oBoard[x][y];
+	return pCells[r][c];
 }
 
-function tick(oBoard) {
-	let oNextBoard = [];
-	for (let i = 0; i < oBoard.length; i++) {
-		oNextBoard[i] = [];
-		for (let j = 0; j < oBoard[i].length; j++) {
-			oNextBoard[i][j] = transform(i, j, oBoard);
+function tick(pCells) {
+	const nNumOfRows = pCells.length;
+	const nNumOfColumns = pCells[0].length;
+	let pNextCells = [];
+	for (let r = 0; r < nNumOfRows; r++) {
+		pNextCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pNextCells[r][c] = transform(r, c, pCells);
 		}
 	}
-	return oNextBoard;
+	return pNextCells;
 }
 
 try {
-	module.exports = { leftNeighbour, rightNeighbour, topNeighbour, bottomNeighbour, numOfLiveNeighbours, transform };
+	module.exports = { getCellValue, numOfLiveNeighbours, transform };
 } catch (e) { }

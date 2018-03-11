@@ -1,20 +1,20 @@
-function createRandomBoard(nWidth, nHeight) {
+function createRandomBoard(nNumOfRows, nNumOfColumns) {
 	let pCells = [];
-	for (let i = 0; i < nHeight; i++) {
-		pCells[i] = [];
-		for (let j = 0; j < nWidth; j++) {
-			pCells[i].push(Math.random() > 0.6 ? 1 : 0);
+	for (let r = 0; r < nNumOfRows; r++) {
+		pCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pCells[r].push(Math.random() > 0.6 ? 1 : 0);
 		}
 	}
 	return pCells;
 }
 function createHeart() {
-	const nWidth = 11, nHeight = 9;
+	const nNumOfRows = 9, nNumOfColumns = 11;
 	let pCells = [];
-	for (let i = 0; i < nHeight; i++) {
-		pCells[i] = [];
-		for (let j = 0; j < nWidth; j++) {
-			pCells[i].push(0);
+	for (let r = 0; r < nNumOfRows; r++) {
+		pCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pCells[r].push(0);
 		}
 	}
 	pCells[1][2] = 1;
@@ -38,26 +38,26 @@ function createHeart() {
 	return pCells;
 }
 function createBlinker() {
-	const nWidth = 5, nHeight = 5;
+	const nNumOfRows = 5, nNumOfColumns = 5;
 	let pCells = [];
-	for (let i = 0; i < nHeight; i++) {
-		pCells[i] = [];
-		for (let j = 0; j < nWidth; j++) {
-			pCells[i].push(0);
+	for (let r = 0; r < nNumOfRows; r++) {
+		pCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pCells[r].push(0);
 		}
 	}
-	pCells[2][1] = 1;
+	pCells[1][2] = 1;
 	pCells[2][2] = 1;
-	pCells[2][3] = 1;
+	pCells[3][2] = 1;
 	return pCells;
 }
 function createBeehive() {
-	const nWidth = 6, nHeight = 5;
+	const nNumOfRows = 5, nNumOfColumns = 6;
 	let pCells = [];
-	for (let i = 0; i < nHeight; i++) {
-		pCells[i] = [];
-		for (let j = 0; j < nWidth; j++) {
-			pCells[i].push(0);
+	for (let r = 0; r < nNumOfRows; r++) {
+		pCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pCells[r].push(0);
 		}
 	}
 	pCells[1][2] = 1;
@@ -69,60 +69,63 @@ function createBeehive() {
 	return pCells;
 }
 function createGosperGliderGun() {
-	const nWidth = 38 * 1.5, nHeight = 11 * 5;
+	const nNumOfRows = 11*10, nNumOfColumns = 38*2;
 	let pCells = [];
-	for (let i = 0; i < nHeight; i++) {
-		pCells[i] = [];
-		for (let j = 0; j < nWidth; j++) {
-			pCells[i].push(0);
+	for (let r = 0; r < nNumOfRows; r++) {
+		pCells[r] = [];
+		for (let c = 0; c < nNumOfColumns; c++) {
+			pCells[r].push(0);
 		}
 	}
-	const m = 10, n = 0;
-	pCells[n + 1][m + 25] = 1;
-	pCells[n + 2][m + 23] = 1;
-	pCells[n + 2][m + 25] = 1;
-	pCells[n + 3][m + 13] = 1;
-	pCells[n + 3][m + 14] = 1;
-	pCells[n + 3][m + 21] = 1;
-	pCells[n + 3][m + 22] = 1;
-	pCells[n + 3][m + 35] = 1;
-	pCells[n + 3][m + 36] = 1;
-	pCells[n + 4][m + 12] = 1;
-	pCells[n + 4][m + 16] = 1;
-	pCells[n + 4][m + 21] = 1;
-	pCells[n + 4][m + 22] = 1;
-	pCells[n + 4][m + 35] = 1;
-	pCells[n + 4][m + 36] = 1;
-	pCells[n + 5][m + 1] = 1;
-	pCells[n + 5][m + 2] = 1;
-	pCells[n + 5][m + 11] = 1;
-	pCells[n + 5][m + 17] = 1;
-	pCells[n + 5][m + 21] = 1;
-	pCells[n + 5][m + 22] = 1;
-	pCells[n + 6][m + 1] = 1;
-	pCells[n + 6][m + 2] = 1;
-	pCells[n + 6][m + 11] = 1;
-	pCells[n + 6][m + 15] = 1;
-	pCells[n + 6][m + 17] = 1;
-	pCells[n + 6][m + 18] = 1;
-	pCells[n + 6][m + 23] = 1;
-	pCells[n + 6][m + 25] = 1;
-	pCells[n + 7][m + 11] = 1;
-	pCells[n + 7][m + 17] = 1;
-	pCells[n + 7][m + 25] = 1;
-	pCells[n + 8][m + 12] = 1;
-	pCells[n + 8][m + 16] = 1;
-	pCells[n + 9][m + 13] = 1;
-	pCells[n + 9][m + 14] = 1;
+	const R = 0, C = 0;
+	pCells[C + 1][R + 25] = 1;
+	pCells[C + 2][R + 23] = 1;
+	pCells[C + 2][R + 25] = 1;
+	pCells[C + 3][R + 13] = 1;
+	pCells[C + 3][R + 14] = 1;
+	pCells[C + 3][R + 21] = 1;
+	pCells[C + 3][R + 22] = 1;
+	pCells[C + 3][R + 35] = 1;
+	pCells[C + 3][R + 36] = 1;
+	pCells[C + 4][R + 12] = 1;
+	pCells[C + 4][R + 16] = 1;
+	pCells[C + 4][R + 21] = 1;
+	pCells[C + 4][R + 22] = 1;
+	pCells[C + 4][R + 35] = 1;
+	pCells[C + 4][R + 36] = 1;
+	pCells[C + 5][R + 1] = 1;
+	pCells[C + 5][R + 2] = 1;
+	pCells[C + 5][R + 11] = 1;
+	pCells[C + 5][R + 17] = 1;
+	pCells[C + 5][R + 21] = 1;
+	pCells[C + 5][R + 22] = 1;
+	pCells[C + 6][R + 1] = 1;
+	pCells[C + 6][R + 2] = 1;
+	pCells[C + 6][R + 11] = 1;
+	pCells[C + 6][R + 15] = 1;
+	pCells[C + 6][R + 17] = 1;
+	pCells[C + 6][R + 18] = 1;
+	pCells[C + 6][R + 23] = 1;
+	pCells[C + 6][R + 25] = 1;
+	pCells[C + 7][R + 11] = 1;
+	pCells[C + 7][R + 17] = 1;
+	pCells[C + 7][R + 25] = 1;
+	pCells[C + 8][R + 12] = 1;
+	pCells[C + 8][R + 16] = 1;
+	pCells[C + 9][R + 13] = 1;
+	pCells[C + 9][R + 14] = 1;
 	return pCells;
 }
 
 function drawBoard(pCells, div) {
-	for (let i = 0; i < pCells.length; i++) {
+	const nNumOfRows = pCells.length;
+	const nNumOfColumns = pCells[0].length;
+
+	for (let r = 0; r < nNumOfRows; r++) {
 		let row = document.createElement("tr");
-		for (let j = 0; j < pCells[i].length; j++) {
+		for (let c = 0; c < nNumOfColumns; c++) {
 			let col = document.createElement("td");
-			col.style.backgroundColor = pCells[i][j] === 1 ? 'black' : 'white';
+			col.style.backgroundColor = pCells[r][c] === 1 ? 'black' : 'white';
 			row.appendChild(col);
 		}
 		div.appendChild(row);
@@ -130,9 +133,12 @@ function drawBoard(pCells, div) {
 }
 
 function updateBoard(pCells, div) {
-	for (let i = 0; i < pCells.length; i++) {
-		for (let j = 0; j < pCells[i].length; j++) {
-			div.childNodes[i].childNodes[j].style.backgroundColor = pCells[i][j] === 1 ? 'black' : 'white';
+	const nNumOfRows = pCells.length;
+	const nNumOfColumns = pCells[0].length;
+
+	for (let r = 0; r < nNumOfRows; r++) {
+		for (let c = 0; c < nNumOfColumns; c++) {
+			div.childNodes[r].childNodes[c].style.backgroundColor = pCells[r][c] === 1 ? 'black' : 'white';
 		}
 	}
 }
@@ -144,7 +150,7 @@ function startGame(pCells) {
 	setInterval(function () {
 		pCells = tick(pCells);
 		updateBoard(pCells, div);
-	}, 100);
+	}, 250);
 }
 
 const oBoardCollection = {
@@ -152,7 +158,7 @@ const oBoardCollection = {
 	Heart: createHeart(),
 	Blinker: createBlinker(),
 	Beehive: createBeehive(),
-	Random: createRandomBoard(15, 10)
+	Random: createRandomBoard(10, 15)
 };
 
 Object.keys(oBoardCollection).forEach(function (sBoardName) {

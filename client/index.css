@@ -1,6 +1,9 @@
 html {
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+body {
+	min-width: 800px;
+}
 
 h3 {
 	margin-bottom: 0;
