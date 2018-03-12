@@ -149,15 +149,35 @@ function updateBoard(pCells, div) {
 	}
 }
 
-function startGame(pCells) {
+const Game = function (pCells) {
+	let pOriginalCells = pCells;
 	let div = document.createElement("div");
 	document.body.appendChild(div);
+
 	drawBoard(pCells, div);
-	setInterval(function () {
-		pCells = tick(pCells);
-		updateBoard(pCells, div);
-	}, 20);
-}
+	let nIntervalFlag = null;
+	return {
+		start: function (SPEED) {
+			nIntervalFlag = setInterval(function () {
+				pCells = tick(pCells);
+				updateBoard(pCells, div);
+			}, SPEED);
+		},
+		stop: function () {
+			clearInterval(nIntervalFlag);
+		},
+		next: function () {
+			this.stop();
+			pCells = tick(pCells);
+			updateBoard(pCells, div);
+		},
+		reset: function () {
+			this.stop();
+			pCells = pOriginalCells;
+			updateBoard(pCells, div);
+		}
+	};
+};
 
 const oBoardCollection = {
 	"Gosper Glider Gun": createGosperGliderGun(),
@@ -168,8 +188,37 @@ const oBoardCollection = {
 };
 
 Object.keys(oBoardCollection).forEach(function (sBoardName) {
-	let h3 = document.createElement("h3");
-	h3.innerText = sBoardName;
-	document.body.appendChild(h3);
-	startGame(oBoardCollection[sBoardName]);
+	let label = document.createElement("label");
+	label.innerText = sBoardName;
+	document.body.appendChild(label);
+	let startBtn = document.createElement("button");
+	startBtn.innerText = 'START';
+	document.body.appendChild(startBtn);
+
+	let nextBtn = document.createElement("button");
+	nextBtn.innerText = 'NEXT';
+	document.body.appendChild(nextBtn);
+
+	let resetBtn = document.createElement("button");
+	resetBtn.innerText = 'RESET';
+	document.body.appendChild(resetBtn);
+
+	const oGame = new Game(oBoardCollection[sBoardName]);
+	startBtn.onclick = function (e) {
+		if (this.innerText === 'START') {
+			oGame.start(20);
+			this.innerText = 'STOP';
+		} else {
+			oGame.stop();
+			this.innerText = 'START';
+		}
+	}
+	nextBtn.onclick = function (e) {
+		oGame.next();
+		startBtn.innerText = 'START';
+	}
+	resetBtn.onclick = function (e) {
+		oGame.reset();
+		startBtn.innerText = 'START';
+	}
 });
