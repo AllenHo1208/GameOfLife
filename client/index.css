@@ -14,7 +14,18 @@ label {
 
 button {
 	margin-bottom: 5px;
+	width: 80px;
 	font-size: 1.2em;
+	text-align: center;
+}
+
+input {
+	width: 390px;
+}
+
+div {
+	border: 2px solid rgb(192, 192, 192);
+	display: inline-block;
 }
 
 td {

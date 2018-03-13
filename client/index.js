@@ -156,12 +156,21 @@ const Game = function (pCells) {
 
 	drawBoard(pCells, div);
 	let nIntervalFlag = null;
+	let nSpeed = 500;
 	return {
-		start: function (SPEED) {
+		setSpeed: function (n = 500) {
+			nSpeed = n;
+		},
+		start: function () {
+			pCells = tick(pCells);
+			updateBoard(pCells, div);
+
+			clearInterval(nIntervalFlag);
+
 			nIntervalFlag = setInterval(function () {
 				pCells = tick(pCells);
 				updateBoard(pCells, div);
-			}, SPEED);
+			}, nSpeed);
 		},
 		stop: function () {
 			clearInterval(nIntervalFlag);
@@ -203,10 +212,20 @@ Object.keys(oBoardCollection).forEach(function (sBoardName) {
 	resetBtn.innerText = 'RESET';
 	document.body.appendChild(resetBtn);
 
+	var slider = document.createElement("input");
+	slider.setAttribute("type", "range");
+	slider.min = 0;
+	slider.max = 1000;
+	slider.value = 500;
+	document.body.appendChild(slider);
+	document.body.appendChild(document.createElement("br"));
+
 	const oGame = new Game(oBoardCollection[sBoardName]);
+	oGame.setSpeed(slider.value);
+
 	startBtn.onclick = function (e) {
 		if (this.innerText === 'START') {
-			oGame.start(20);
+			oGame.start();
 			this.innerText = 'STOP';
 		} else {
 			oGame.stop();
@@ -221,4 +240,12 @@ Object.keys(oBoardCollection).forEach(function (sBoardName) {
 		oGame.reset();
 		startBtn.innerText = 'START';
 	}
+	slider.oninput = function (e) {
+		oGame.setSpeed(this.max - this.value);
+		if (startBtn.innerText === 'STOP') {
+			oGame.start();
+		}
+	}
+	document.body.appendChild(document.createElement("br"));
+	document.body.appendChild(document.createElement("br"));
 });
